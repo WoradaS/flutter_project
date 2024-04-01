@@ -78,6 +78,13 @@ class _QuizState extends State<Quiz> {
     }
   }
 
+  void resetQuiz() {
+    setState(() {
+      selectedAnswers = [];
+      activeScreen = 'start-screen';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final screenWidget = activeScreen == 'start-screen'
@@ -92,7 +99,7 @@ class _QuizState extends State<Quiz> {
       );
     }
     if (activeScreen == 'result-screen') {
-      screenWidget = ResultScreen(chosenAnswers: selectedAnswers);
+      screenWidget = ResultScreen(restartQuiz: resetQuiz,chosenAnswers: selectedAnswers);
     }
 
     return MaterialApp(

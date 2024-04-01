@@ -1,22 +1,28 @@
 import 'package:first_app/quiz_app/data/question.dart';
 import 'package:first_app/quiz_app/question_summary.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.chosenAnswers});
+  const ResultScreen(
+      {super.key, required this.chosenAnswers, required this.restartQuiz});
 
   final List<String> chosenAnswers;
+
+  final void Function() restartQuiz;
 
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
 
     for (var i = 0; i < chosenAnswers.length; i++) {
-      summary.add({
-        'question_index': i,
-        'question': questions[i].text,
-        'correct_answer': questions[i].answers[0],
-        'user_answer': chosenAnswers[i],
-      },);
+      summary.add(
+        {
+          'question_index': i,
+          'question': questions[i].text,
+          'correct_answer': questions[i].answers[0],
+          'user_answer': chosenAnswers[i],
+        },
+      );
     }
 
     return summary;
@@ -24,6 +30,12 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final summaryData = getSummaryData();
+    final numTotalQuestion = questions.length;
+    final numCorrectQuestion = summaryData
+        .where((element) => element['user_answer'] == element['correct_answer'])
+        .length;
+
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -31,11 +43,25 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You answers X out of y question correctly!'),
+            Text(
+              'You answers $numCorrectQuestion out of $numTotalQuestion question correctly!',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
             const SizedBox(height: 30),
-            QuestionSummary(getSummaryData()),
+            QuestionSummary(summaryData),
             const SizedBox(height: 30),
-            TextButton(onPressed: (){}, child: const Text('Restart Quiz!'))
+            OutlinedButton.icon(
+              onPressed: restartQuiz,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.white,
+              ),
+              icon: const Icon(Icons.replay),
+              label: const Text('Restart Quiz!'),
+            )
           ],
         ),
       ),
