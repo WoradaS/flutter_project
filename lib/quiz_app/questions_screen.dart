@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:first_app/quiz_app/answer_button.dart';
 import 'package:first_app/quiz_app/data/question.dart';
@@ -40,12 +40,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             children: [
               Text(
                 currentQuestion.text,
-                // style: GoogleFonts.lato(
-                //   color: Color.fromARGB(255, 158, 148, 234),
-                //   fontSize: 14,
-                //   fontWeight: FontWeight.bold,
-                // ),
-                style: const TextStyle(
+                style: GoogleFonts.lato(
                   color: Color.fromARGB(255, 158, 148, 234),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
